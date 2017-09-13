@@ -439,28 +439,62 @@ final private class AESCipher {
         let rounds = variant.Nr
         var rk2: Array<Array<UInt32>> = expandKey(key, variant: variant)
 
+        // Commented because the code is not working in Swift 3.2/Swift 4
+//        for r in 1..<rounds {
+//            var w: UInt32
+//
+//            w = rk2[r][0]
+//            let u1 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
+//            let u2 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
+//            rk2[r][0] = u1 ^ u2
+//
+//            w = rk2[r][1]
+//            let u11 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
+//            let u12 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
+//            rk2[r][1] = u11 ^ u12
+//
+//            w = rk2[r][2]
+//            let u22 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
+//            let u23 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
+//            rk2[r][2] = u22 ^ u23
+//
+//            w = rk2[r][3]
+//            let u33 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
+//            let u34 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
+//            rk2[r][3] = u33 ^ u34
+//        }
+        
+        // Changes foor the code to work in Siwft 3.2/Swift 4
         for r in 1..<rounds {
             var w: UInt32
-
             w = rk2[r][0]
-            let u1 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
-            let u2 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
-            rk2[r][0] = u1 ^ u2
-
+            var x1 = Int(B0(w))
+            var x2 = Int(B1(w))
+            var x3 = Int(B2(w))
+            var x4 = Int(B3(w))
+            
+            rk2[r][0] = U1[x1] ^ U2[x2] ^ U3[x3] ^ U4[x4]
+            
             w = rk2[r][1]
-            let u11 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
-            let u12 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
-            rk2[r][1] = u11 ^ u12
-
+            x1 = Int(B0(w))
+            x2 = Int(B1(w))
+            x3 = Int(B2(w))
+            x4 = Int(B3(w))
+            rk2[r][1] = U1[x1] ^ U2[x2] ^ U3[x3] ^ U4[x4]
+            
             w = rk2[r][2]
-            let u22 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
-            let u23 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
-            rk2[r][2] = u22 ^ u23
-
+            x1 = Int(B0(w))
+            x2 = Int(B1(w))
+            x3 = Int(B2(w))
+            x4 = Int(B3(w))
+            rk2[r][2] = U1[x1] ^ U2[x2] ^ U3[x3] ^ U4[x4]
+            
             w = rk2[r][3]
-            let u33 = U1[Int(B0(w))] ^ U2[Int(B1(w))]
-            let u34 = U3[Int(B2(w))] ^ U4[Int(B3(w))]
-            rk2[r][3] = u33 ^ u34
+            x1 = Int(B0(w))
+            x2 = Int(B1(w))
+            x3 = Int(B2(w))
+            x4 = Int(B3(w))
+            rk2[r][3] = U1[x1] ^ U2[x2] ^ U3[x3] ^ U4[x4]
         }
 
         return rk2
